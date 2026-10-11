@@ -1,0 +1,610 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mein Griechisch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=GFS+Didot&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+<style>
+html { color-scheme: light; }
+body { margin: 0; }
+img { max-width: 100%; }
+[hidden] { display: none !important; }
+/* Layout: kompakte Kopfzeile mit Tab-Leiste, darunter ein Panel je Bereich. Große griechische Schrift ist der Hauptakteur. */
+:root {
+  --bg: #eef1f4;
+  --surface: #ffffff;
+  --surface2: #e3e8ee;
+  --ink: #13202b;
+  --muted: #566574;
+  --line: #cbd4dd;
+  --accent: #1d5fc0;
+  --accent-ink: #ffffff;
+  --good: #1e7a46;
+  --good-bg: #ddf1e5;
+  --bad: #b3362b;
+  --bad-bg: #f8e1de;
+  --font-gr: 'GFS Didot', 'Palatino Linotype', Georgia, 'Times New Roman', serif;
+  --font-ui: 'Source Sans 3', system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0e171e;
+    --surface: #162430;
+    --surface2: #1d2f3d;
+    --ink: #e6edf3;
+    --muted: #93a6b6;
+    --line: #2a3e4e;
+    --accent: #6aa6ff;
+    --accent-ink: #07121e;
+    --good: #5bd18a;
+    --good-bg: #15382a;
+    --bad: #ff8a7e;
+    --bad-bg: #43211e;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0e171e;
+  --surface: #162430;
+  --surface2: #1d2f3d;
+  --ink: #e6edf3;
+  --muted: #93a6b6;
+  --line: #2a3e4e;
+  --accent: #6aa6ff;
+  --accent-ink: #07121e;
+  --good: #5bd18a;
+  --good-bg: #15382a;
+  --bad: #ff8a7e;
+  --bad-bg: #43211e;
+  color-scheme: dark;
+}
+body { background: var(--bg); color: var(--ink); font-family: var(--font-ui); font-size: 16px; line-height: 1.5; }
+* { box-sizing: border-box; }
+button { font: inherit; color: inherit; cursor: pointer; }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.gr { font-family: var(--font-gr); font-weight: 400; }
+.wrap { max-width: 760px; margin-inline: auto; padding-inline: 16px; }
+
+header.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--bg); border-bottom: 1px solid var(--line); }
+.brand { display: flex; align-items: baseline; gap: 12px; padding-block: 12px 4px; }
+.brand h1 { margin: 0; font-size: 1.7rem; line-height: 1.1; letter-spacing: 0.01em; }
+.brand span { color: var(--muted); font-size: 0.9rem; }
+nav.tabs { display: flex; gap: 4px; overflow-x: auto; padding-block: 4px 8px; scrollbar-width: none; }
+nav.tabs::-webkit-scrollbar { display: none; }
+nav.tabs button { flex: 0 0 auto; border: 0; background: transparent; padding: 8px 14px; border-radius: 8px; font-weight: 600; color: var(--muted); }
+nav.tabs button[aria-selected="true"] { background: var(--accent); color: var(--accent-ink); }
+
+main { padding-block: 20px 56px; }
+.panel { display: flex; flex-direction: column; gap: 16px; }
+.panel[hidden] { display: none; }
+.box { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 16px; min-width: 0; }
+h2 { margin: 0; font-size: 1.25rem; line-height: 1.25; text-wrap: balance; }
+h3 { margin: 0; font-size: 1.05rem; text-wrap: balance; }
+p { margin: 0; }
+.muted { color: var(--muted); }
+.small { font-size: 0.9rem; }
+.eyebrow { text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.75rem; font-weight: 700; color: var(--muted); }
+.row { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+.stack { display: flex; flex-direction: column; gap: 8px; }
+
+.btn { border: 1px solid var(--line); background: var(--surface); padding: 10px 16px; border-radius: 8px; font-weight: 600; }
+.btn:hover { background: var(--surface2); }
+.btn.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.btn.primary:hover { filter: brightness(1.08); background: var(--accent); }
+.btn.good { background: var(--good-bg); border-color: var(--good); color: var(--good); }
+.btn.bad { background: var(--bad-bg); border-color: var(--bad); color: var(--bad); }
+.spk { border: 1px solid var(--line); background: var(--surface); border-radius: 999px; width: 40px; height: 40px; display: inline-flex; align-items: center; justify-content: center; flex: 0 0 auto; padding: 0; }
+.spk:hover { background: var(--surface2); }
+.spk svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.nospeech .spk { display: none; }
+
+/* Start */
+.hero { display: flex; flex-direction: column; gap: 8px; }
+.hero .big { font-size: clamp(2.6rem, 11vw, 4.2rem); line-height: 1.05; }
+.meter { height: 8px; border-radius: 4px; background: var(--surface2); overflow: hidden; }
+.meter i { display: block; height: 100%; background: var(--accent); }
+.prog { display: grid; gap: 14px; }
+.prog .head { display: flex; justify-content: space-between; gap: 12px; font-weight: 600; margin-bottom: 6px; font-variant-numeric: tabular-nums; }
+
+/* Alphabet */
+.detail { display: grid; grid-template-columns: auto 1fr; gap: 16px 24px; align-items: center; }
+.detail .glyph { font-size: clamp(3.4rem, 16vw, 5.5rem); line-height: 1; white-space: nowrap; }
+.detail .info { min-width: 0; display: flex; flex-direction: column; gap: 6px; }
+.detail .ex { grid-column: 1 / -1; border-top: 1px solid var(--line); padding-top: 12px; display: flex; gap: 12px; align-items: center; justify-content: space-between; }
+.grid24 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+@media (min-width: 560px) { .grid24 { grid-template-columns: repeat(6, 1fr); } }
+.tile { border: 1px solid var(--line); background: var(--surface); border-radius: 8px; padding: 10px 4px 8px; display: flex; flex-direction: column; align-items: center; gap: 2px; position: relative; min-width: 0; }
+.tile .gl { font-size: 1.7rem; line-height: 1.1; }
+.tile .nm { font-size: 0.75rem; color: var(--muted); }
+.tile[aria-pressed="true"] { border-color: var(--accent); box-shadow: inset 0 0 0 2px var(--accent); }
+.tile.seen::after { content: ""; position: absolute; top: 6px; right: 6px; width: 7px; height: 7px; border-radius: 50%; background: var(--good); }
+.tablewrap { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; min-width: 420px; }
+th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
+
+/* Karten */
+.chips { display: flex; gap: 8px; flex-wrap: wrap; }
+.chip { border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 6px 14px; font-size: 0.92rem; font-weight: 600; }
+.chip[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.flash { width: 100%; min-height: 220px; border: 1px solid var(--line); background: var(--surface); border-radius: 12px; padding: 24px 16px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; text-align: center; }
+.flash:hover { background: var(--surface); border-color: var(--accent); }
+.flash .front { font-size: clamp(2rem, 8vw, 2.8rem); line-height: 1.2; overflow-wrap: anywhere; }
+.flash .tr { font-style: italic; color: var(--muted); font-size: 1.15rem; }
+.flash .de { font-size: 1.5rem; font-weight: 600; overflow-wrap: anywhere; }
+.flash .hint { color: var(--muted); font-size: 0.85rem; }
+.answers { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.counter { font-variant-numeric: tabular-nums; color: var(--muted); font-weight: 600; }
+.boxes { display: flex; gap: 4px; }
+.boxes i { width: 18px; height: 6px; border-radius: 3px; background: var(--surface2); }
+.boxes i.on { background: var(--accent); }
+
+/* Quiz */
+.opts { display: grid; gap: 10px; }
+.opt { text-align: left; border: 1px solid var(--line); background: var(--surface); border-radius: 8px; padding: 12px 14px; display: flex; flex-direction: column; gap: 2px; min-width: 0; overflow-wrap: anywhere; }
+.opt:hover:not(:disabled) { background: var(--surface2); }
+.opt .sub { font-style: italic; color: var(--muted); font-size: 0.9rem; visibility: hidden; }
+.opt.ok { background: var(--good-bg); border-color: var(--good); }
+.opt.no { background: var(--bad-bg); border-color: var(--bad); }
+.answered .opt .sub { visibility: visible; }
+.opt:disabled { cursor: default; color: var(--ink); }
+.qprompt { font-size: clamp(2rem, 9vw, 3rem); line-height: 1.15; text-align: center; overflow-wrap: anywhere; padding-block: 8px; }
+.qprompt.de { font-family: var(--font-ui); font-weight: 700; font-size: clamp(1.5rem, 6vw, 2rem); }
+.modes { display: grid; gap: 10px; }
+.score { font-size: 3rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+
+/* Grammatik */
+details { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; }
+summary { padding: 14px 16px; font-weight: 700; cursor: pointer; list-style-position: inside; }
+details[open] summary { border-bottom: 1px solid var(--line); }
+details .body { padding: 14px 16px 16px; display: flex; flex-direction: column; gap: 12px; }
+.ex-line { display: flex; flex-wrap: wrap; gap: 4px 12px; align-items: baseline; }
+.ex-line .gr { font-size: 1.3rem; }
+.phrases { display: grid; gap: 8px; }
+.phrase { display: flex; gap: 12px; align-items: center; justify-content: space-between; padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); }
+.phrase > div { min-width: 0; }
+.phrase .gr { font-size: 1.25rem; overflow-wrap: anywhere; }
+.phrase .tr { font-style: italic; color: var(--muted); font-size: 0.9rem; }
+@media (prefers-reduced-motion: no-preference) { .meter i { transition: width 0.4s ease; } }
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <div class="brand"><h1 class="gr">Ελληνικά</h1><span>Mein Griechisch</span></div>
+    <nav class="tabs" role="tablist" aria-label="Bereiche">
+      <button role="tab" data-tab="home" aria-selected="true">Start</button>
+      <button role="tab" data-tab="alpha" aria-selected="false">Alphabet</button>
+      <button role="tab" data-tab="cards" aria-selected="false">Karten</button>
+      <button role="tab" data-tab="quiz" aria-selected="false">Quiz</button>
+      <button role="tab" data-tab="grammar" aria-selected="false">Grammatik</button>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="panel" id="p-home"></section>
+  <section class="panel" id="p-alpha" hidden></section>
+  <section class="panel" id="p-cards" hidden></section>
+  <section class="panel" id="p-quiz" hidden></section>
+  <section class="panel" id="p-grammar" hidden></section>
+</main>
+
+<script>
+(function () {
+  'use strict';
+  var $ = function (s, r) { return (r || document).querySelector(s); };
+  var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
+
+  /* ---------- Daten ---------- */
+  var LETTERS = [
+    { u: 'Α', l: 'α', n: 'Alpha', g: 'άλφα', s: 'a wie in „Anna“', w: 'Αθήνα', t: 'Athína', d: 'Athen' },
+    { u: 'Β', l: 'β', n: 'Beta', g: 'βήτα', s: 'v wie in „Vase“', w: 'βιβλίο', t: 'vivlío', d: 'Buch' },
+    { u: 'Γ', l: 'γ', n: 'Gamma', g: 'γάμμα', s: 'weiches, geriebenes g; vor e und i wie j', w: 'γάτα', t: 'ghá-ta', d: 'Katze' },
+    { u: 'Δ', l: 'δ', n: 'Delta', g: 'δέλτα', s: 'stimmhaftes englisches th wie in „the“', w: 'δέντρο', t: 'dhén-dro', d: 'Baum' },
+    { u: 'Ε', l: 'ε', n: 'Epsilon', g: 'έψιλον', s: 'e wie in „Bett“', w: 'ελιά', t: 'eliá', d: 'Olive' },
+    { u: 'Ζ', l: 'ζ', n: 'Zeta', g: 'ζήτα', s: 'stimmhaftes s wie in „Sonne“', w: 'ζωή', t: 'zoí', d: 'Leben' },
+    { u: 'Η', l: 'η', n: 'Eta', g: 'ήτα', s: 'i wie in „Igel“', w: 'ήλιος', t: 'í-lios', d: 'Sonne' },
+    { u: 'Θ', l: 'θ', n: 'Theta', g: 'θήτα', s: 'stimmloses englisches th wie in „think“', w: 'θάλασσα', t: 'thá-la-sa', d: 'Meer' },
+    { u: 'Ι', l: 'ι', n: 'Iota', g: 'γιώτα', s: 'i wie in „Igel“', w: 'ιστορία', t: 'is-to-rí-a', d: 'Geschichte' },
+    { u: 'Κ', l: 'κ', n: 'Kappa', g: 'κάπα', s: 'k wie in „Kaffee“', w: 'καφές', t: 'ka-fés', d: 'Kaffee' },
+    { u: 'Λ', l: 'λ', n: 'Lambda', g: 'λάμδα', s: 'l wie in „Land“', w: 'λεμόνι', t: 'le-mó-ni', d: 'Zitrone' },
+    { u: 'Μ', l: 'μ', n: 'My', g: 'μι', s: 'm wie in „Mama“', w: 'μήλο', t: 'mí-lo', d: 'Apfel' },
+    { u: 'Ν', l: 'ν', n: 'Ny', g: 'νι', s: 'n wie in „Nase“', w: 'νερό', t: 'ne-ró', d: 'Wasser' },
+    { u: 'Ξ', l: 'ξ', n: 'Xi', g: 'ξι', s: 'ks wie in „Hexe“', w: 'ξένος', t: 'xé-nos', d: 'Fremder' },
+    { u: 'Ο', l: 'ο', n: 'Omikron', g: 'όμικρον', s: 'o wie in „Sonne“', w: 'όνομα', t: 'ó-no-ma', d: 'Name' },
+    { u: 'Π', l: 'π', n: 'Pi', g: 'πι', s: 'p wie in „Papa“', w: 'παιδί', t: 'pe-dhí', d: 'Kind' },
+    { u: 'Ρ', l: 'ρ', n: 'Rho', g: 'ρο', s: 'mit der Zungenspitze gerolltes r', w: 'ρολόι', t: 'ro-lói', d: 'Uhr' },
+    { u: 'Σ', l: 'σ / ς', n: 'Sigma', g: 'σίγμα', s: 'stimmloses s wie in „Hast“ (ς steht am Wortende)', w: 'σπίτι', t: 'spí-ti', d: 'Haus' },
+    { u: 'Τ', l: 'τ', n: 'Tau', g: 'ταυ', s: 't wie in „Tag“', w: 'τυρί', t: 'ti-rí', d: 'Käse' },
+    { u: 'Υ', l: 'υ', n: 'Ypsilon', g: 'ύψιλον', s: 'i wie in „Igel“', w: 'ύπνος', t: 'íp-nos', d: 'Schlaf' },
+    { u: 'Φ', l: 'φ', n: 'Phi', g: 'φι', s: 'f wie in „Fisch“', w: 'φίλος', t: 'fí-los', d: 'Freund' },
+    { u: 'Χ', l: 'χ', n: 'Chi', g: 'χι', s: 'ch wie in „Bach“; vor e und i wie in „ich“', w: 'χαρά', t: 'cha-rá', d: 'Freude' },
+    { u: 'Ψ', l: 'ψ', n: 'Psi', g: 'ψι', s: 'ps wie in „Psalm“', w: 'ψάρι', t: 'psá-ri', d: 'Fisch' },
+    { u: 'Ω', l: 'ω', n: 'Omega', g: 'ωμέγα', s: 'o wie in „Sonne“, gleich wie Omikron', w: 'ώρα', t: 'ó-ra', d: 'Stunde, Uhr' }
+  ];
+  var DIGRAPHS = [
+    { g: 'αι', s: 'e', w: 'παιδί', t: 'pedhí', d: 'Kind' },
+    { g: 'ει, οι', s: 'i', w: 'είναι', t: 'íne', d: 'ist, sind' },
+    { g: 'ου', s: 'u', w: 'ούζο', t: 'úzo', d: 'Ouzo' },
+    { g: 'αυ, ευ', s: 'av / ef (je nach Folgelaut)', w: 'ευχαριστώ', t: 'efcharistó', d: 'danke' },
+    { g: 'μπ', s: 'b am Wortanfang, mb in der Mitte', w: 'μπύρα', t: 'bíra', d: 'Bier' },
+    { g: 'ντ', s: 'd am Wortanfang, nd in der Mitte', w: 'ντομάτα', t: 'domáta', d: 'Tomate' },
+    { g: 'γκ', s: 'g am Wortanfang, ng in der Mitte', w: 'γκρι', t: 'gri', d: 'grau' },
+    { g: 'τσ', s: 'ts', w: 'τσάι', t: 'tsái', d: 'Tee' },
+    { g: 'τζ', s: 'dz', w: 'τζατζίκι', t: 'dzadzíki', d: 'Tzatziki' }
+  ];
+  var VOCAB_RAW = [
+    ['Begrüßen', 'Γεια σου', 'ja su', 'Hallo (du)', 1],
+    ['Begrüßen', 'Καλημέρα', 'kaliméra', 'Guten Morgen', 1],
+    ['Begrüßen', 'Καλησπέρα', 'kalispéra', 'Guten Abend', 1],
+    ['Begrüßen', 'Καληνύχτα', 'kaliníchta', 'Gute Nacht', 1],
+    ['Begrüßen', 'Τι κάνεις;', 'ti kánis', 'Wie geht’s?', 1],
+    ['Begrüßen', 'Καλά, ευχαριστώ', 'kalá, efcharistó', 'Gut, danke', 1],
+    ['Begrüßen', 'Με λένε …', 'me léne', 'Ich heiße …', 1],
+    ['Begrüßen', 'Χαίρω πολύ', 'chéro polí', 'Freut mich', 1],
+    ['Begrüßen', 'Ευχαριστώ', 'efcharistó', 'Danke', 0],
+    ['Begrüßen', 'Παρακαλώ', 'parakaló', 'Bitte / Gern geschehen', 0],
+    ['Begrüßen', 'Συγγνώμη', 'sighnómi', 'Entschuldigung', 0],
+    ['Begrüßen', 'Ναι', 'ne', 'Ja', 0],
+    ['Begrüßen', 'Όχι', 'óchi', 'Nein', 0],
+    ['Begrüßen', 'Αντίο', 'adhío', 'Tschüss', 0],
+    ['Zahlen', 'ένα', 'éna', 'eins (1)', 0],
+    ['Zahlen', 'δύο', 'dhío', 'zwei (2)', 0],
+    ['Zahlen', 'τρία', 'tría', 'drei (3)', 0],
+    ['Zahlen', 'τέσσερα', 'tésera', 'vier (4)', 0],
+    ['Zahlen', 'πέντε', 'pénte', 'fünf (5)', 0],
+    ['Zahlen', 'έξι', 'éxi', 'sechs (6)', 0],
+    ['Zahlen', 'επτά', 'eftá', 'sieben (7)', 0],
+    ['Zahlen', 'οκτώ', 'októ', 'acht (8)', 0],
+    ['Zahlen', 'εννέα', 'ennéa', 'neun (9)', 0],
+    ['Zahlen', 'δέκα', 'dhéka', 'zehn (10)', 0],
+    ['Essen & Trinken', 'το νερό', 'to neró', 'das Wasser', 0],
+    ['Essen & Trinken', 'το ψωμί', 'to psomí', 'das Brot', 0],
+    ['Essen & Trinken', 'το τυρί', 'to tirí', 'der Käse', 0],
+    ['Essen & Trinken', 'ο καφές', 'o kafés', 'der Kaffee', 0],
+    ['Essen & Trinken', 'το κρασί', 'to krasí', 'der Wein', 0],
+    ['Essen & Trinken', 'η μπύρα', 'i bíra', 'das Bier', 0],
+    ['Essen & Trinken', 'το ψάρι', 'to psári', 'der Fisch', 0],
+    ['Essen & Trinken', 'η ελιά', 'i eliá', 'die Olive', 0],
+    ['Essen & Trinken', 'η σαλάτα', 'i saláta', 'der Salat', 0],
+    ['Essen & Trinken', 'το μήλο', 'to mílo', 'der Apfel', 0],
+    ['Essen & Trinken', 'το γάλα', 'to ghála', 'die Milch', 0],
+    ['Essen & Trinken', 'ο λογαριασμός', 'o loghariasmós', 'die Rechnung', 0],
+    ['Essen & Trinken', 'Έναν καφέ, παρακαλώ', 'énan kafé, parakaló', 'Einen Kaffee, bitte', 1],
+    ['Essen & Trinken', 'Τον λογαριασμό, παρακαλώ', 'ton loghariasmó, parakaló', 'Die Rechnung, bitte', 1],
+    ['Essen & Trinken', 'Χωρίς κρέας, παρακαλώ', 'chorís kréas, parakaló', 'Ohne Fleisch, bitte', 1],
+    ['Essen & Trinken', 'Είμαι χορτοφάγος', 'íme chortofághos', 'Ich bin Vegetarier', 1],
+    ['Unterwegs', 'Πού είναι …;', 'pu íne', 'Wo ist …?', 1],
+    ['Unterwegs', 'Πόσο κάνει;', 'póso káni', 'Wie viel kostet das?', 1],
+    ['Unterwegs', 'Δεν καταλαβαίνω', 'dhen katalavéno', 'Ich verstehe nicht', 1],
+    ['Unterwegs', 'Μιλάτε αγγλικά;', 'miláte angliká', 'Sprechen Sie Englisch?', 1],
+    ['Unterwegs', 'Βοήθεια!', 'voíthia', 'Hilfe!', 1],
+    ['Unterwegs', 'το αεροδρόμιο', 'to aerodhrómio', 'der Flughafen', 0],
+    ['Unterwegs', 'το ξενοδοχείο', 'to ksenodhochío', 'das Hotel', 0],
+    ['Unterwegs', 'ο δρόμος', 'o dhrómos', 'die Straße', 0],
+    ['Unterwegs', 'η θάλασσα', 'i thálasa', 'das Meer', 0],
+    ['Unterwegs', 'η παραλία', 'i paralía', 'der Strand', 0],
+    ['Unterwegs', 'η στάση', 'i stási', 'die Haltestelle', 0],
+    ['Unterwegs', 'το εισιτήριο', 'to isitírio', 'die Fahrkarte', 0],
+    ['Alltag', 'το σπίτι', 'to spíti', 'das Haus', 0],
+    ['Alltag', 'ο φίλος', 'o fílos', 'der Freund', 0],
+    ['Alltag', 'το παιδί', 'to pedhí', 'das Kind', 0],
+    ['Alltag', 'η ώρα', 'i óra', 'die Stunde, die Uhrzeit', 0],
+    ['Alltag', 'σήμερα', 'símera', 'heute', 0],
+    ['Alltag', 'αύριο', 'ávrio', 'morgen', 0],
+    ['Alltag', 'τώρα', 'tóra', 'jetzt', 0],
+    ['Alltag', 'πολύ', 'polí', 'sehr, viel', 0],
+    ['Alltag', 'λίγο', 'lígho', 'ein bisschen', 0]
+  ];
+  var CATS = ['Begrüßen', 'Zahlen', 'Essen & Trinken', 'Unterwegs', 'Alltag'];
+  var VOCAB = (function () {
+    var counters = {};
+    return VOCAB_RAW.map(function (r) {
+      var k = CATS.indexOf(r[0]);
+      counters[k] = (counters[k] || 0) + 1;
+      return { id: 'c' + k + '-' + counters[k], c: r[0], g: r[1], t: r[2], d: r[3], p: !!r[4] };
+    });
+  })();
+  var INTERVAL = [0, 0, 1, 3, 7, 21];
+
+  /* ---------- Zustand und Speichern ---------- */
+  var LS_KEY = 'mein-griechisch-v1';
+  var state = { cards: {}, letters: [], quiz: {}, updated: 0 };
+  function normalize(s) {
+    s = s || {};
+    return {
+      cards: (s.cards && typeof s.cards === 'object') ? s.cards : {},
+      letters: Array.isArray(s.letters) ? s.letters : [],
+      quiz: (s.quiz && typeof s.quiz === 'object') ? s.quiz : {},
+      updated: typeof s.updated === 'number' ? s.updated : 0
+    };
+  }
+  try { var raw = localStorage.getItem(LS_KEY); if (raw) state = normalize(JSON.parse(raw)); } catch (e) {}
+  function localSave() { try { localStorage.setItem(LS_KEY, JSON.stringify(state)); } catch (e) {} }
+
+  function save() { state.updated = Date.now(); localSave(); }
+
+  /* ---------- Hilfsfunktionen ---------- */
+  function today() { var d = new Date(); return Math.floor((d.getTime() - d.getTimezoneOffset() * 60000) / 864e5); }
+  function shuffle(a) { a = a.slice(); for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
+  function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+  var SPK_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 6a9 9 0 0 1 0 12"/></svg>';
+  function spk(text, label) { return '<button class="spk" type="button" data-say="' + esc(text) + '" aria-label="' + esc(label || 'Anhören') + '">' + SPK_ICON + '</button>'; }
+  function speak(text) {
+    try {
+      if (!('speechSynthesis' in window)) return;
+      var u = new SpeechSynthesisUtterance(text);
+      u.lang = 'el-GR'; u.rate = 0.85;
+      window.speechSynthesis.cancel(); window.speechSynthesis.speak(u);
+    } catch (e) {}
+  }
+  if (!('speechSynthesis' in window)) document.body.classList.add('nospeech');
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest && e.target.closest('[data-say]');
+    if (b) { e.stopPropagation(); speak(b.getAttribute('data-say')); }
+  }, true);
+
+  /* ---------- Tabs ---------- */
+  var current = 'home';
+  var renderers = {};
+  function show(tab) {
+    current = tab;
+    $$('nav.tabs button').forEach(function (b) { b.setAttribute('aria-selected', b.getAttribute('data-tab') === tab ? 'true' : 'false'); });
+    $$('main .panel').forEach(function (p) { p.hidden = p.id !== 'p-' + tab; });
+    renderers[tab]();
+    window.scrollTo(0, 0);
+  }
+  function renderCurrent() { renderers[current](); }
+  $('nav.tabs').addEventListener('click', function (e) { var b = e.target.closest('button[data-tab]'); if (b) show(b.getAttribute('data-tab')); });
+  document.addEventListener('click', function (e) { var g = e.target.closest('[data-goto]'); if (g) show(g.getAttribute('data-goto')); });
+
+  /* ---------- Start ---------- */
+  function cardStats() {
+    var t = today(), due = 0, seen = 0, sure = 0;
+    VOCAB.forEach(function (v) { var c = state.cards[v.id]; if (c) { seen++; if (c.d <= t) due++; if (c.b >= 4) sure++; } });
+    return { due: due, seen: seen, sure: sure, fresh: VOCAB.length - seen };
+  }
+  renderers.home = function () {
+    var s = cardStats(), nl = state.letters.length;
+    var next = nl < 24
+      ? '<p>Du kennst ' + nl + ' von 24 Buchstaben. Im Alphabet tippst du jeden Buchstaben an und hörst ihn dir an.</p><div><button class="btn primary" data-goto="alpha">Alphabet üben</button></div>'
+      : (s.due + Math.min(10, s.fresh) > 0
+        ? '<p>' + s.due + ' Karten sind fällig, dazu bis zu ' + Math.min(10, s.fresh) + ' neue.</p><div><button class="btn primary" data-goto="cards">Karten üben</button></div>'
+        : '<p>Heute ist nichts mehr fällig. Ein Quiz hält die Wörter frisch.</p><div><button class="btn primary" data-goto="quiz">Quiz starten</button></div>');
+    var bestVals = Object.keys(state.quiz).map(function (k) { return state.quiz[k].best || 0; });
+    var best = bestVals.length ? Math.max.apply(null, bestVals) + ' %' : 'noch keins';
+    function bar(label, val, max) {
+      return '<div><div class="head"><span>' + label + '</span><span>' + val + ' / ' + max + '</span></div><div class="meter"><i style="width:' + Math.round(val / max * 100) + '%"></i></div></div>';
+    }
+    $('#p-home').innerHTML =
+      '<div class="hero"><p class="eyebrow">Neugriechisch für Anfänger</p><div class="big gr">Καλώς ήρθες</div><p class="muted">Willkommen. Alphabet, Wörter, Quiz und die ersten Regeln an einem Ort.</p></div>' +
+      '<div class="box stack"><h2>Als Nächstes</h2>' + next + '</div>' +
+      '<div class="box prog"><h2>Dein Stand</h2>' +
+      bar('Buchstaben gesehen', nl, 24) + bar('Wörter begonnen', s.seen, VOCAB.length) + bar('Wörter sicher', s.sure, VOCAB.length) +
+      '<p class="muted small">Bestes Quiz-Ergebnis: ' + best + '</p></div>';
+  };
+
+  /* ---------- Alphabet ---------- */
+  var selLetter = 0;
+  function markSeen(i) { if (state.letters.indexOf(i) < 0) { state.letters.push(i); save(); } }
+  renderers.alpha = function (focusIdx) {
+    markSeen(selLetter);
+    var L = LETTERS[selLetter];
+    var tiles = LETTERS.map(function (x, i) {
+      return '<button class="tile' + (state.letters.indexOf(i) >= 0 ? ' seen' : '') + '" data-i="' + i + '" aria-pressed="' + (i === selLetter) + '"><span class="gl gr">' + x.u + (x.l.length === 1 ? x.l : 'σ') + '</span><span class="nm">' + x.n + '</span></button>';
+    }).join('');
+    var dig = DIGRAPHS.map(function (d) {
+      return '<tr><td class="gr" style="font-size:1.2rem">' + d.g + '</td><td>' + d.s + '</td><td><span class="gr">' + d.w + '</span> <span class="muted small"><i>' + d.t + '</i> · ' + d.d + '</span></td></tr>';
+    }).join('');
+    $('#p-alpha').innerHTML =
+      '<div class="box"><div class="detail">' +
+      '<div class="glyph gr" aria-hidden="true">' + L.u + ' ' + L.l + '</div>' +
+      '<div class="info"><div class="row"><h2>' + L.n + '</h2><span class="gr muted" style="font-size:1.2rem">' + L.g + '</span>' + spk(L.g, 'Namen anhören') + '</div><p>' + L.s + '</p></div>' +
+      '<div class="ex"><div><div class="gr" style="font-size:1.6rem">' + L.w + '</div><div class="small"><i class="muted">' + L.t + '</i> · ' + L.d + '</div></div>' + spk(L.w, 'Beispielwort anhören') + '</div>' +
+      '</div></div>' +
+      '<div class="row" style="justify-content:space-between"><h2>Die 24 Buchstaben</h2><span class="muted small">' + state.letters.length + ' / 24 gesehen</span></div>' +
+      '<div class="grid24">' + tiles + '</div>' +
+      '<div class="row"><button class="btn primary" data-quizmode="letter">Buchstaben abfragen</button></div>' +
+      '<div class="box stack"><h2>Buchstabenpaare</h2><p class="muted small">Zwei Buchstaben ergeben oft einen eigenen Laut. Sie lernst du am besten als feste Gruppe.</p><div class="tablewrap"><table><thead><tr><th>Paar</th><th>Laut</th><th>Beispiel</th></tr></thead><tbody>' + dig + '</tbody></table></div></div>';
+    if (typeof focusIdx === 'number') { var t = $('.tile[data-i="' + focusIdx + '"]'); if (t) t.focus(); }
+  };
+  $('#p-alpha').addEventListener('click', function (e) {
+    var t = e.target.closest('.tile');
+    if (t) { selLetter = +t.getAttribute('data-i'); renderers.alpha(selLetter); return; }
+    var q = e.target.closest('[data-quizmode]');
+    if (q) { show('quiz'); startQuiz(q.getAttribute('data-quizmode')); }
+  });
+
+  /* ---------- Karten ---------- */
+  var cardCat = 'all', queue = null, qi = 0, flipped = false, sess = { right: 0, wrong: 0 }, repeated = {};
+  function buildQueue(all) {
+    var t = today();
+    var pool = VOCAB.filter(function (v) { return cardCat === 'all' || v.c === cardCat; });
+    if (all) return shuffle(pool);
+    var due = pool.filter(function (v) { return state.cards[v.id] && state.cards[v.id].d <= t; });
+    var fresh = pool.filter(function (v) { return !state.cards[v.id]; }).slice(0, 10);
+    return shuffle(due.concat(fresh));
+  }
+  function startCards(all) { queue = buildQueue(all); qi = 0; flipped = false; sess = { right: 0, wrong: 0 }; repeated = {}; renderers.cards(); }
+  renderers.cards = function () {
+    if (!queue) queue = buildQueue(false);
+    var chips = ['all'].concat(CATS).map(function (c) {
+      return '<button class="chip" data-cat="' + esc(c) + '" aria-pressed="' + (c === cardCat) + '">' + (c === 'all' ? 'Alle' : esc(c)) + '</button>';
+    }).join('');
+    var body;
+    if (qi >= queue.length) {
+      var total = sess.right + sess.wrong;
+      body = '<div class="box stack" style="text-align:center;align-items:center;padding-block:28px">' +
+        (total ? '<h2>Runde geschafft</h2><p>' + sess.right + ' gewusst, ' + sess.wrong + ' noch nicht.</p>' : '<h2>Hier ist gerade nichts fällig</h2><p class="muted">Du kannst trotzdem alle Karten dieser Auswahl durchgehen.</p>') +
+        '<div class="row" style="justify-content:center"><button class="btn primary" data-act="again">' + (total ? 'Noch eine Runde' : 'Alle üben') + '</button><button class="btn" data-act="all">Alle Karten dieser Auswahl</button></div></div>';
+    } else {
+      var v = queue[qi], c = state.cards[v.id], box = c ? c.b : 0;
+      var dots = [1, 2, 3, 4, 5].map(function (n) { return '<i class="' + (n <= box ? 'on' : '') + '"></i>'; }).join('');
+      var face = flipped
+        ? '<div class="front gr">' + esc(v.g) + '</div><div class="tr">' + esc(v.t) + '</div><div class="de">' + esc(v.d) + '</div>'
+        : '<div class="front gr">' + esc(v.g) + '</div><div class="hint">Antippen zum Umdrehen</div>';
+      body = '<div class="row" style="justify-content:space-between"><span class="counter">Karte ' + (qi + 1) + ' von ' + queue.length + '</span><div class="boxes" title="Lernstufe" aria-label="Lernstufe ' + box + ' von 5">' + dots + '</div></div>' +
+        '<button class="flash" type="button" data-act="flip">' + face + '</button>' +
+        '<div class="row" style="justify-content:center">' + spk(v.g, 'Anhören') + '</div>' +
+        (flipped ? '<div class="answers"><button class="btn bad" data-act="no">Noch nicht</button><button class="btn good" data-act="yes">Gewusst</button></div>' : '<p class="muted small" style="text-align:center">Erst überlegen, dann umdrehen.</p>');
+    }
+    $('#p-cards').innerHTML = '<div class="chips">' + chips + '</div>' + body;
+  };
+  $('#p-cards').addEventListener('click', function (e) {
+    var chip = e.target.closest('.chip');
+    if (chip) { cardCat = chip.getAttribute('data-cat'); startCards(false); return; }
+    var a = e.target.closest('[data-act]'); if (!a) return;
+    var act = a.getAttribute('data-act');
+    if (act === 'flip') { flipped = !flipped; renderers.cards(); if (flipped) speak(queue[qi].g); return; }
+    if (act === 'again') { startCards(false); if (queue.length === 0) startCards(true); return; }
+    if (act === 'all') { startCards(true); return; }
+    if (act === 'yes' || act === 'no') {
+      var v = queue[qi], ok = act === 'yes';
+      var c = state.cards[v.id] || { b: 0, d: 0 };
+      c.b = ok ? Math.min(5, Math.max(c.b, 1) + 1) : 1;
+      c.d = today() + INTERVAL[c.b];
+      state.cards[v.id] = c; save();
+      if (ok) sess.right++; else { sess.wrong++; if (!repeated[v.id]) { repeated[v.id] = 1; queue.push(v); } }
+      qi++; flipped = false; renderers.cards();
+    }
+  });
+
+  /* ---------- Quiz ---------- */
+  var Q = null;
+  var MODES = [
+    ['grde', 'Griechisch → Deutsch', 'Du siehst das Wort und wählst die Übersetzung.'],
+    ['degr', 'Deutsch → Griechisch', 'Du siehst die Übersetzung und wählst das griechische Wort.'],
+    ['letter', 'Buchstaben', 'Du siehst einen Buchstaben und wählst seinen Namen.'],
+    ['mix', 'Gemischt', 'Von allem etwas, zehn Fragen.']
+  ];
+  function pickDistractors(item, pool, key, k) {
+    var others = shuffle(pool.filter(function (x) { return x.id !== item.id && x[key] !== item[key]; }));
+    var same = others.filter(function (x) { return x.c && x.c === item.c; });
+    var rest = others.filter(function (x) { return !(x.c && x.c === item.c); });
+    return same.concat(rest).slice(0, k);
+  }
+  function makeQuestion(kind, item) {
+    var opts, prompt, cls;
+    if (kind === 'grde') {
+      prompt = item.g; cls = 'gr';
+      opts = [{ text: item.d, sub: item.t, ok: true }].concat(pickDistractors(item, VOCAB, 'd', 3).map(function (x) { return { text: x.d, sub: x.t, ok: false }; }));
+    } else if (kind === 'degr') {
+      prompt = item.d; cls = 'de';
+      opts = [{ text: item.g, sub: item.t, ok: true, gr: true }].concat(pickDistractors(item, VOCAB, 'g', 3).map(function (x) { return { text: x.g, sub: x.t, ok: false, gr: true }; }));
+    } else {
+      prompt = item.u + ' ' + (item.l.length === 1 ? item.l : 'σ'); cls = 'gr';
+      var L = LETTERS.map(function (x, i) { x.id = 'L' + i; return x; });
+      opts = [{ text: item.n, sub: item.g, ok: true }].concat(shuffle(L.filter(function (x) { return x.id !== item.id; })).slice(0, 3).map(function (x) { return { text: x.n, sub: x.g, ok: false }; }));
+    }
+    return { prompt: prompt, cls: cls, say: kind === 'degr' ? null : (kind === 'letter' ? item.g : item.g), opts: shuffle(opts), picked: -1, kind: kind };
+  }
+  function startQuiz(mode) {
+    var n = 10, kinds = [];
+    for (var i = 0; i < n; i++) kinds.push(mode === 'mix' ? ['grde', 'degr', 'letter'][i % 3] : mode);
+    var vPool = shuffle(VOCAB), lPool = shuffle(LETTERS.map(function (x, i) { var y = Object.assign({}, x); y.id = 'L' + i; return y; }));
+    var qs = kinds.map(function (k) { return makeQuestion(k, k === 'letter' ? lPool.pop() : vPool.pop()); });
+    Q = { mode: mode, qs: qs, i: 0, score: 0, done: false };
+    renderers.quiz();
+  }
+  renderers.quiz = function () {
+    var el = $('#p-quiz');
+    if (!Q) {
+      el.innerHTML = '<div class="stack"><h2>Quiz</h2><p class="muted">Zehn Fragen mit vier Antworten. Wähle einen Modus.</p></div><div class="modes">' +
+        MODES.map(function (m) {
+          var st = state.quiz[m[0]];
+          return '<button class="btn" style="text-align:left" data-mode="' + m[0] + '"><div style="font-weight:700">' + m[1] + '</div><div class="muted small" style="font-weight:400">' + m[2] + (st ? ' Bestwert: ' + st.best + ' %' : '') + '</div></button>';
+        }).join('') + '</div>';
+      return;
+    }
+    if (Q.done) {
+      var pct = Math.round(Q.score / Q.qs.length * 100);
+      var msg = pct === 100 ? 'Fehlerfrei.' : pct >= 70 ? 'Starkes Ergebnis.' : pct >= 40 ? 'Gute Basis. Die Karten helfen bei den Lücken.' : 'Der Anfang ist gemacht. Probier erst Alphabet und Karten.';
+      el.innerHTML = '<div class="box stack" style="text-align:center;align-items:center;padding-block:28px"><div class="eyebrow">Ergebnis</div><div class="score">' + Q.score + ' / ' + Q.qs.length + '</div><p>' + msg + '</p>' +
+        '<div class="row" style="justify-content:center"><button class="btn primary" data-act="restart">Nochmal</button><button class="btn" data-act="menu">Anderer Modus</button></div></div>';
+      return;
+    }
+    var q = Q.qs[Q.i], answered = q.picked >= 0;
+    var opts = q.opts.map(function (o, i) {
+      var cls = 'opt' + (answered ? (o.ok ? ' ok' : (i === q.picked ? ' no' : '')) : '');
+      return '<button class="' + cls + '" data-opt="' + i + '"' + (answered ? ' disabled' : '') + '><span class="' + (o.gr ? 'gr' : '') + '" style="' + (o.gr ? 'font-size:1.4rem' : '') + '">' + esc(o.text) + '</span><span class="sub">' + esc(o.sub) + '</span></button>';
+    }).join('');
+    el.innerHTML = '<div class="row" style="justify-content:space-between"><span class="counter">Frage ' + (Q.i + 1) + ' von ' + Q.qs.length + '</span><span class="counter">' + Q.score + ' richtig</span></div>' +
+      '<div class="meter"><i style="width:' + (Q.i / Q.qs.length * 100) + '%"></i></div>' +
+      '<div class="box"><div class="qprompt ' + q.cls + '">' + esc(q.prompt) + '</div>' + (q.say ? '<div class="row" style="justify-content:center">' + spk(q.say, 'Anhören') + '</div>' : '') + '</div>' +
+      '<div class="opts' + (answered ? ' answered' : '') + '">' + opts + '</div>' +
+      (answered ? '<div class="row" style="justify-content:flex-end"><button class="btn primary" data-act="next">' + (Q.i + 1 === Q.qs.length ? 'Ergebnis' : 'Weiter') + '</button></div>' : '');
+  };
+  $('#p-quiz').addEventListener('click', function (e) {
+    var m = e.target.closest('[data-mode]');
+    if (m) { startQuiz(m.getAttribute('data-mode')); return; }
+    var o = e.target.closest('[data-opt]');
+    if (o && Q && !Q.done) {
+      var q = Q.qs[Q.i]; if (q.picked >= 0) return;
+      q.picked = +o.getAttribute('data-opt');
+      if (q.opts[q.picked].ok) Q.score++;
+      renderers.quiz(); return;
+    }
+    var a = e.target.closest('[data-act]'); if (!a) return;
+    var act = a.getAttribute('data-act');
+    if (act === 'next') {
+      if (Q.i + 1 >= Q.qs.length) {
+        Q.done = true;
+        var pct = Math.round(Q.score / Q.qs.length * 100), st = state.quiz[Q.mode] || { best: 0, played: 0 };
+        st.best = Math.max(st.best, pct); st.played = (st.played || 0) + 1; state.quiz[Q.mode] = st; save();
+      } else Q.i++;
+      renderers.quiz();
+    }
+    if (act === 'restart') startQuiz(Q.mode);
+    if (act === 'menu') { Q = null; renderers.quiz(); }
+  });
+
+  /* ---------- Grammatik ---------- */
+  function exl(g, t, d) { return '<div class="ex-line"><span class="gr">' + g + '</span><span class="muted small"><i>' + t + '</i> · ' + d + '</span>' + spk(g, 'Anhören') + '</div>'; }
+  function tbl(head, rows) {
+    return '<div class="tablewrap"><table><thead><tr>' + head.map(function (h) { return '<th>' + h + '</th>'; }).join('') + '</tr></thead><tbody>' +
+      rows.map(function (r) { return '<tr>' + r.map(function (c, i) { return '<td' + (/[Ͱ-Ͽ]/.test(c) ?' class="gr" style="font-size:1.15rem"' : '') + '>' + c + '</td>'; }).join('') + '</tr>'; }).join('') + '</tbody></table></div>';
+  }
+  renderers.grammar = function () {
+    var phrases = VOCAB.filter(function (v) { return v.p; }).map(function (v) {
+      return '<div class="phrase"><div><div class="gr">' + esc(v.g) + '</div><div class="tr">' + esc(v.t) + '</div><div class="small">' + esc(v.d) + '</div></div>' + spk(v.g, 'Anhören') + '</div>';
+    }).join('');
+    $('#p-grammar').innerHTML =
+      '<div class="stack"><h2>Grammatik in kleinen Schritten</h2><p class="muted">Sechs kurze Lektionen für den Einstieg. Tippe auf eine Überschrift.</p></div>' +
+      '<details open><summary>1. Betonung und Satzzeichen</summary><div class="body">' +
+      '<p>Jedes Wort mit mehreren Silben trägt einen Akzent (ά, έ, ή, ί, ό, ύ, ώ). Er markiert nur die betonte Silbe und verändert keinen Laut.</p>' +
+      '<p>Das Fragezeichen sieht aus wie unser Semikolon (;).</p>' + exl('Τι κάνεις;', 'ti kánis', 'Wie geht’s?') + exl('Καλημέρα', 'kaliméra', 'Guten Morgen (betont auf „mé“)') + '</div></details>' +
+      '<details><summary>2. Artikel und Geschlecht</summary><div class="body">' +
+      '<p>Wie im Deutschen gibt es männlich, weiblich und sächlich. Lerne jedes Nomen mit seinem Artikel, die Karten zeigen ihn immer mit.</p>' +
+      tbl(['', 'Singular', 'Plural'], [['männlich', 'ο', 'οι'], ['weiblich', 'η', 'οι'], ['sächlich', 'το', 'τα']]) +
+      exl('ο φίλος → οι φίλοι', 'o fílos → i fíli', 'der Freund → die Freunde') + exl('η θάλασσα → οι θάλασσες', 'i thálasa → i thálases', 'das Meer → die Meere') + exl('το σπίτι → τα σπίτια', 'to spíti → ta spítia', 'das Haus → die Häuser') + '</div></details>' +
+      '<details><summary>3. Sein: είμαι</summary><div class="body">' +
+      tbl(['Person', 'Griechisch', 'Aussprache'], [['ich', 'είμαι', 'íme'], ['du', 'είσαι', 'íse'], ['er, sie, es', 'είναι', 'íne'], ['wir', 'είμαστε', 'ímaste'], ['ihr, Sie', 'είστε', 'íste'], ['sie (Plural)', 'είναι', 'íne']]) +
+      exl('Είμαι από τη Γερμανία.', 'íme apó ti Germanía', 'Ich bin aus Deutschland.') + '</div></details>' +
+      '<details><summary>4. Haben: έχω</summary><div class="body">' +
+      '<p>Das Pronomen entfällt meistens, die Endung zeigt die Person.</p>' +
+      tbl(['Person', 'Griechisch', 'Aussprache'], [['ich', 'έχω', 'écho'], ['du', 'έχεις', 'échis'], ['er, sie, es', 'έχει', 'échi'], ['wir', 'έχουμε', 'échume'], ['ihr, Sie', 'έχετε', 'échete'], ['sie (Plural)', 'έχουν', 'échun']]) +
+      exl('Έχεις νερό;', 'échis neró', 'Hast du Wasser?') + '</div></details>' +
+      '<details><summary>5. Verneinen und Fragen</summary><div class="body">' +
+      '<p>Zum Verneinen steht <span class="gr">δεν</span> direkt vor dem Verb. Fragen haben dieselbe Wortstellung wie Aussagen, nur die Stimme geht nach oben.</p>' +
+      exl('Δεν καταλαβαίνω.', 'dhen katalavéno', 'Ich verstehe nicht.') + exl('Δεν ξέρω.', 'dhen xéro', 'Ich weiß nicht.') +
+      tbl(['Fragewort', 'Aussprache', 'Bedeutung'], [['τι', 'ti', 'was'], ['πού', 'pu', 'wo'], ['πότε', 'póte', 'wann'], ['πώς', 'pós', 'wie'], ['πόσο', 'póso', 'wie viel'], ['γιατί', 'jatí', 'warum'], ['ποιος', 'pios', 'wer']]) + '</div></details>' +
+      '<details><summary>6. Verben auf -ω und der Akkusativ</summary><div class="body">' +
+      '<p>Viele Verben enden in der Grundform auf -ω und haben im Präsens dieselben Endungen: -ω, -εις, -ει, -ουμε, -ετε, -ουν.</p>' +
+      tbl(['Person', 'θέλω (wollen)', 'Aussprache'], [['ich', 'θέλω', 'thélo'], ['du', 'θέλεις', 'thélis'], ['er, sie, es', 'θέλει', 'théli'], ['wir', 'θέλουμε', 'thélume'], ['ihr, Sie', 'θέλετε', 'thélete'], ['sie (Plural)', 'θέλουν', 'thélun']]) +
+      '<p>Nach dem Verb steht das Objekt im Akkusativ. Für den Anfang merkst du dir nur, dass sich der Artikel beim männlichen Wort ändert.</p>' +
+      tbl(['Nominativ', 'Akkusativ'], [['ο καφές', 'τον καφέ'], ['η σαλάτα', 'τη σαλάτα'], ['το νερό', 'το νερό']]) +
+      exl('Θέλω τον καφέ.', 'thélo ton kafé', 'Ich möchte den Kaffee.') + '</div></details>' +
+      '<div class="stack" style="margin-top:8px"><h2>Sätze für unterwegs</h2><p class="muted small">Tippe auf den Lautsprecher, um dir den Satz anzuhören.</p></div>' +
+      '<div class="phrases">' + phrases + '</div>';
+  };
+
+  /* ---------- Start ---------- */
+  renderers.home();
+})();
+</script>
+</body>
+</html>
